@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  application:
+    build:
+      context: ./build
+    container_name: application
+    privileged: true
+    volumes:
+      - ./supervisor/:/etc/supervisor/conf.d/
+      - ./../:/var/www/html/cashMachine/
+      - ./vhost/:/etc/nginx/sites-enabled/
+      - ./ssl/certsdesk:/etc/ssl/certsdesk
+      - ./ssl/private:/etc/ssl/private
+      - ~/.ssh/:/home/docker/.ssh/
+    links:
+      - "postgres:postgres"
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "1080:1080"
+      - "9090:9090"
+    command: "/usr/bin/supervisord -n"
+    tty: true
+    environment:
+      - XDEBUG_CONFIG=remote_host=
+      - PHP_IDE_CONFIG=serverName=Xdebug
+      - ENCRYPT_KEY=Ca2D46c86bD314a1E62eDd967b365bAa
+    networks:
+      - proxy-tier
+  postgres:
+    image: postgres:9.5
+    container_name: postgres
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./volume/postgres/backup:/var/backup/"
+      - "./volume/postgres/data:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - proxy-tier
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - "5050:80"
+    tty: true
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    links:
+      - "postgres:postgres"
+    networks:
+      - proxy-tier
+networks:
+  proxy-tier:
+    driver: bridge
+

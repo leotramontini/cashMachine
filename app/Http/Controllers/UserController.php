@@ -57,8 +57,9 @@ class UserController extends Controller
         try {
             $this->userService->destroy($id);
         } catch (UserServiceException $error) {
-            return response()->json(
-                $error->getMessage(),
+            return response()->json([
+                    'message' => $error->getMessage()
+                ],
                 404
             );
         }

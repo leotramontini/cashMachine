@@ -4,6 +4,7 @@
 namespace Tests\Unit\Controllers;
 
 
+use App\Models\User;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
@@ -40,5 +41,29 @@ class UserControllerTest extends TestCase
         $response = $this->json('POST', $this->baseResource, $user);
 
         $response->assertStatus(422);
+    }
+
+    public function testDestroy()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->json('DELETE', $this->baseResource . '/' . $user->id);
+
+        $response->assertJson([
+            'message' => 'User delete with success'
+        ])
+            ->assertStatus(200);
+    }
+
+    public function testDestroyFail()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->json('DELETE', $this->baseResource . '/' . ($user->id + $this->faker->randomDigitNotNull));
+
+        $response->assertJson([
+            'message' => 'User not found'
+        ])
+            ->assertStatus(404);
     }
 }

@@ -16,6 +16,7 @@ class RedirectIfAuthenticated
      * @param  \Closure  $next
      * @param  string|null  ...$guards
      * @return mixed
+     * @codeCoverageIgnore
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {

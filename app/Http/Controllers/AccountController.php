@@ -27,7 +27,7 @@ class AccountController extends Controller
         $inputs = $request->all();
 
         $validator = Validator::make($inputs, [
-            'balance'           => 'required|int',
+            'balance'           => 'required|int|min:0',
             'account_type_id'   => 'required|int',
             'user_id'           => 'required|int'
         ]);

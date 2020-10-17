@@ -67,7 +67,7 @@ class AccountController extends Controller
         } catch (AccountServiceException $error) {
             return response()->json([
                 'message' => $error->getMessage()
-            ], 400);
+            ], 404);
         }
 
         return response()->json($account);

@@ -77,7 +77,6 @@ class UserControllerTest extends TestCase
             'birthday'      => $user->birthday->format('Y-m-d'),
             'created_at'    => $user->created_at->format('Y-m-d H:i:s'),
             'updated_at'    => $user->updated_at->format('Y-m-d H:i:s'),
-            'deleted_at'    => $user->deleted_at
         ];
 
         $response = $this->json('PUT', $this->baseResource . '/' . $user->id, ['name' => $newName]);
@@ -98,5 +97,61 @@ class UserControllerTest extends TestCase
             'message' => 'User not found'
         ])
             ->assertStatus(404);
+    }
+
+
+    public function testIndex()
+    {
+        $user = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        $response = $this->json('GET', $this->baseResource);
+
+        $response->assertJson([
+            [
+                'name'          => $user->name,
+                'cpf'           => $user->cpf,
+                'birthday'      => $user->birthday->format('Y-m-d'),
+                'created_at'    => $user->created_at->format('Y-m-d H:i:s'),
+                'updated_at'    => $user->updated_at->format('Y-m-d H:i:s'),
+            ],
+            [
+                'name'          => $user2->name,
+                'cpf'           => $user2->cpf,
+                'birthday'      => $user2->birthday->format('Y-m-d'),
+                'created_at'    => $user2->created_at->format('Y-m-d H:i:s'),
+                'updated_at'    => $user2->updated_at->format('Y-m-d H:i:s'),
+            ]
+        ])->assertStatus(200);
+    }
+
+    public function testIndexReturnOne()
+    {
+        $user = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        $response = $this->json('GET', $this->baseResource . '?name=' . $user->name);
+
+        $response->assertJson([
+            [
+                'name'          => $user->name,
+                'cpf'           => $user->cpf,
+                'birthday'      => $user->birthday->format('Y-m-d'),
+                'created_at'    => $user->created_at->format('Y-m-d H:i:s'),
+                'updated_at'    => $user->updated_at->format('Y-m-d H:i:s'),
+            ]
+        ])->assertStatus(200);
+    }
+
+    public function testIndexReturnNotFoundUser()
+    {
+        $user = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        $response = $this->json('GET', $this->baseResource . '?name=' . $this->faker->name);
+
+        $response->assertJson([
+            'message' => 'User(s) not found'
+        ])->assertStatus(404);
     }
 }

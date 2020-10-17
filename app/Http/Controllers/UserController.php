@@ -49,13 +49,13 @@ class UserController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param int $userIid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(int $id)
+    public function destroy(int $userIid)
     {
         try {
-            $this->userService->destroy($id);
+            $this->userService->destroy($userIid);
         } catch (UserServiceException $error) {
             return response()->json([
                     'message' => $error->getMessage()
@@ -67,5 +67,25 @@ class UserController extends Controller
         return response()->json([
             'message' => 'User delete with success'
         ]);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param int $userId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, int $userId)
+    {
+        try {
+            $user = $this->userService->update($request->all(), $userId);
+        } catch (UserServiceException $error) {
+            return response()->json([
+                'message' => $error->getMessage()
+            ],
+                404
+            );
+        }
+
+        return response()->json($user);
     }
 }

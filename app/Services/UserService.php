@@ -48,4 +48,24 @@ class UserService
 
         return $user->delete();
     }
+
+    /**
+     * @param array $inputs
+     * @param int $userId
+     * @return \App\Models\User
+     * @throws \App\Exceptions\UserServiceException
+     */
+    public function update(array $inputs, int $userId)
+    {
+        $user = $this->user->find($userId);
+
+        if (empty($user)) {
+            throw new UserServiceException('User not found');
+        }
+
+        $user->fill($inputs);
+        $user->save();
+
+        return $user;
+    }
 }

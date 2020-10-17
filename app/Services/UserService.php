@@ -68,4 +68,20 @@ class UserService
 
         return $user;
     }
+
+    /**
+     * @param array $inputs
+     * @return \Illuminate\Database\Eloquent\Collection
+     * @throws \App\Exceptions\UserServiceException
+     */
+    public function index(array $inputs)
+    {
+        $users = $this->user->where($inputs)->get();
+
+        if ($users->isEmpty()) {
+            throw new UserServiceException('User(s) not found');
+        }
+
+        return $users;
+    }
 }

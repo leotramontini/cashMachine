@@ -88,4 +88,23 @@ class UserController extends Controller
 
         return response()->json($user);
     }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request)
+    {
+        try {
+            $users = $this->userService->index($request->all());
+        } catch (UserServiceException $error) {
+            return response()->json([
+                'message' => $error->getMessage()
+            ],
+                404
+            );
+        }
+
+        return response()->json($users);
+    }
 }

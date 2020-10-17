@@ -43,14 +43,7 @@ class UserController extends Controller
             ], 422);
         }
 
-        try {
-            $user = $this->userService->store($inputs);
-        } catch (UserServiceException $error) {
-            return response()->json([
-                $error->getMessage()
-            ], 400);
-        }
-
+        $user = $this->userService->store($inputs);
         return response()->json($user);
     }
 }

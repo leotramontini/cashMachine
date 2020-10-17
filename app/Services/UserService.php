@@ -29,13 +29,8 @@ class UserService
      */
     public function store(array $userData)
     {
-        try {
-            $this->user->fill($userData);
-            $this->user->save();
-        } catch (Exception $error) {
-            throw new UserServiceException($error->getMessage());
-        }
-
+        $this->user->fill($userData);
+        $this->user->save();
         return $this->user;
     }
 }

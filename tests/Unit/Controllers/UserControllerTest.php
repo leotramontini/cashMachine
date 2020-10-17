@@ -90,6 +90,8 @@ class UserControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
+        $newName = $this->faker->name;
+
         $response = $this->json('PUT', $this->baseResource . '/' . ($user->id + $this->faker->randomDigitNotNull), ['name' => $newName]);
 
         $response->assertJson([

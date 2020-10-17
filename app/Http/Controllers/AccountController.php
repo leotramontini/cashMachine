@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\AccountServiceException;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Services\AccountService;
@@ -38,6 +39,36 @@ class AccountController extends Controller
         }
 
         $account = $this->accountService->store($inputs);
+
+        return response()->json($account);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param int $accountId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deposit(Request $request, int $accountId)
+    {
+        $inputs = $request->all();
+
+        $validator = Validator::make($inputs, [
+            'value' => 'required|int|min:1'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => Arr::first($validator->getMessageBag()->getMessages())[0]
+            ], 422);
+        }
+
+        try {
+            $account = $this->accountService->deposit($inputs, $accountId);
+        } catch (AccountServiceException $error) {
+            return response()->json([
+                'message' => $error->getMessage()
+            ], 400);
+        }
 
         return response()->json($account);
     }

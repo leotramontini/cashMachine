@@ -4,7 +4,9 @@
 namespace App\Services;
 
 
+use App\Exceptions\AccountServiceException;
 use App\Models\Account;
+use Illuminate\Support\Arr;
 
 class AccountService
 {
@@ -31,5 +33,27 @@ class AccountService
         $this->account->fill($inputs);
         $this->account->save();
         return $this->account;
+    }
+
+    /**
+     * @param array $inputs
+     * @param int $accountId
+     * @return \App\Models\Account
+     * @throws \App\Exceptions\AccountServiceException
+     */
+    public function deposit(array $inputs, int $accountId)
+    {
+        $account = $this->account->find($accountId);
+
+        if (empty($account)) {
+            throw new AccountServiceException('Account not found');
+        }
+
+        $account->fill([
+            'balance'  => ($account->balance + Arr::get($inputs, 'value'))
+        ]);
+        $account->save();
+
+        return $account;
     }
 }

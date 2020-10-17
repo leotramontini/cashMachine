@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\UserServiceException;
 use Illuminate\Http\Request;
 use App\Services\UserService;
-use App\Exceptions\UserServiceException;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -38,12 +38,33 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                $validator->getMessageBag()
-            ], 422);
+            return response()->json(
+                $validator->getMessageBag(),
+                422
+            );
         }
 
         $user = $this->userService->store($inputs);
         return response()->json($user);
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(int $id)
+    {
+        try {
+            $this->userService->destroy($id);
+        } catch (UserServiceException $error) {
+            return response()->json(
+                $error->getMessage(),
+                404
+            );
+        }
+
+        return response()->json([
+            'message' => 'User delete with success'
+        ]);
     }
 }

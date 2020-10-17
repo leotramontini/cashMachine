@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('users', 'App\Http\Controllers\UserController@create');
+Route::delete('users/{userId}', 'App\Http\Controllers\UserController@destroy')
+    ->where('userId', '[0-9]+');

@@ -19,6 +19,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'birthday',
-        'cpf',
+        'cpf'
+    ];
+
+    protected $casts = [
+        'birthday' => 'date:Y-m-d',
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s'
     ];
 }

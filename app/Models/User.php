@@ -22,6 +22,10 @@ class User extends Authenticatable
         'cpf'
     ];
 
+    protected $hidden = [
+        'deleted_at'
+    ];
+
     protected $casts = [
         'birthday' => 'date:Y-m-d',
         'created_at' => 'datetime:Y-m-d H:i:s',

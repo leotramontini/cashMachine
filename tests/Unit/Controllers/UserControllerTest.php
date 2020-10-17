@@ -43,6 +43,20 @@ class UserControllerTest extends TestCase
         $response->assertStatus(422);
     }
 
+    public function testStoreCpfEquals()
+    {
+        $user = User::factory()->create();
+        $user2 = [
+            'name'      => $this->faker->name,
+            'birthday'  => $this->faker->date(),
+            'cpf'       => $user->cpf
+        ];
+
+        $response = $this->json('POST', $this->baseResource, $user2);
+
+        $response->assertStatus(400);
+    }
+
     public function testDestroy()
     {
         $user = User::factory()->create();

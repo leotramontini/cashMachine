@@ -25,11 +25,17 @@ class UserService
     /**
      * @param array $userData
      * @return \App\Models\User
+     * @throws \App\Exceptions\UserServiceException
      */
     public function store(array $userData)
     {
-        $this->user->fill($userData);
-        $this->user->save();
+        try {
+            $this->user->fill($userData);
+            $this->user->save();
+        } catch (Exception $error) {
+            throw new UserServiceException($error->getMessage());
+        }
+
         return $this->user;
     }
 

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\UserServiceException;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use App\Exceptions\UserServiceException;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -38,13 +39,23 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(
-                $validator->getMessageBag(),
+            return response()->json([
+                'message' => Arr::first($validator->getMessageBag()->getMessages())[0]
+            ],
                 422
             );
         }
 
-        $user = $this->userService->store($inputs);
+        try {
+            $user = $this->userService->store($inputs);
+        } catch (UserServiceException $error) {
+            return response()->json([
+                'message' => $error->getMessage()
+            ],
+                400
+            );
+        }
+
         return response()->json($user);
     }
 

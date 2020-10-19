@@ -23,3 +23,5 @@ Route::put('users/{userId}', 'App\Http\Controllers\UserController@update')
 Route::post('accounts', 'App\Http\Controllers\AccountController@create');
 Route::put('accounts/{accountId}/deposit', 'App\Http\Controllers\AccountController@deposit')
     ->where('accountId', '[0-9]');
+Route::put('accounts/{accountId}/withdraw', 'App\Http\Controllers\AccountController@withdraw')
+    ->where('accountId', '[0-9]');

@@ -72,4 +72,34 @@ class AccountController extends Controller
 
         return response()->json($account);
     }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param int $accountId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function withdraw(Request $request, int $accountId)
+    {
+        $inputs = $request->all();
+
+        $validator = Validator::make($inputs, [
+            'value' => 'required|int|min:20'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => Arr::first($validator->getMessageBag()->getMessages())[0]
+            ], 422);
+        }
+
+        try {
+            $response = $this->accountService->withdraw($accountId, $inputs['value']);
+        } catch (AccountServiceException $error) {
+            return response()->json([
+                'message' => $error->getMessage()
+            ], 404);
+        }
+
+        return response()->json($response);
+    }
 }

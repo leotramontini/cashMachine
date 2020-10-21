@@ -1,61 +1,189 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Caixa eletrônico :moneybag:
 
-## About Laravel
+<img src="https://img.shields.io/static/v1?label=COVERAGE&message=100&color=green&style=for-the-badge"/> <img src="https://img.shields.io/static/v1?label=Licese&message=MIT&color=blue&style=for-the-badge"/> <img src="https://img.shields.io/static/v1?label=PHP&message=7.3.23&color=purple&style=for-the-badge&logo=PHP"/> <img src="https://img.shields.io/static/v1?label=LARAVEL&message=8&color=red&style=for-the-badge&logo=LARAVEL"/>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Tópicos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+:small_blue_diamond: [Descrição do projeto](#descrição-do-projeto)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+:small_blue_diamond: [Features](#features)
 
-## Learning Laravel
+:small_blue_diamond: [Pré-requisitos](#pré-requisitos)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+:small_blue_diamond: [Documentação dos endpoints ](#documentação-dos-endpoints)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+:small_blue_diamond: [Como rodar a aplicação ](#como-rodar-a-aplicação-arrow_forward)
 
-## Laravel Sponsors
+:small_blue_diamond: [Como rodar os testes ](#como-rodar-os-testes)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
+## Descrição do Projeto
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+Desenvolver uma plataforma capaz de realizar uma simulação de banco.
 
-## Contributing
+### Features
+- Criar usuários
+- Atualizar usuário
+- Remover usuário
+- Listar usuários
+- Criar conta
+- Depósito
+- Saque
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+> Status do Projeto: Concluido :heavy_check_mark:
 
-## Code of Conduct
+## Pré-requisitos
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+:warning: [Docker](https://www.docker.com/) :whale: 
 
-## Security Vulnerabilities
+:warning: [Docker compose](https://docs.docker.com/compose/) :octopus:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Como rodar a aplicação :arrow_forward:
 
-## License
+No terminal, clone o projeto:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+git clone git@github.com:leotramontini/cashMachine.git
+```
+
+Entre na pasta do docker que está dentro do projeto:
+
+```
+cd cashMachine/docker
+```
+
+Vamos construir os container com os seguintes comandos:
+
+```
+docker-compose build && docker-compose up -d
+```
+
+Devemos verificar se as imagens estão de pé pelo comando:
+
+```
+docker ps
+```
+
+Aparacerá três containers: pgadmin, application e postgres.
+
+Editar o seguinte arquivo:
+
+```
+sudo nano /etc/hosts
+```
+
+Adicionar:
+
+```
+127.0.0.1	cash-machine.local
+```
+
+Temos que entrar no container `application` para instalar as dependências do projeto, execute o comando:
+
+```
+docker exec -ti application bash
+```
+
+Em seguida entrar com o usuário docker :whale: :
+
+```
+su docker
+```
+
+Entrar na pasta do projeto:
+
+```
+cd cashMachine
+```
+
+Instalar as dependências do PHP :elephant: :
+
+```
+composer install
+```
+
+
+Criar o arquivo `.env` apartir do `.env.example` e alterar as seguintes informações:
+
+```
+DB_CONNECTION=pgsql  
+DB_HOST=postgres  
+DB_PORT=5432  
+DB_DATABASE=cash-machine  
+DB_USERNAME=postgres  
+DB_PASSWORD=postgres
+```
+
+Para configurar o banco de dados em um browser acesse `localhost:5050`, usaremos as seguintes credenciais:
+
+| email  | senha  |
+| ------------ | ------------ |
+|  pgadmin4@pgadmin.org | postgres  |
+
+Em `Serves` clique com o botão direito do mouse e clique na opção `Create` :arrow_right: `Servers`
+
+Abrirá uma tela e devemos colocar as seguintes informações:
+
+| Campo  | Valor  | Aba  |
+| ------------ | ------------ | ------------ |
+|  Name | Dev  | General  |
+| Host name/connection  |  postgres | Connection  |
+| Username |  postgres | Connection  |
+| Password  |  postgres | Connection  |
+
+Clicar no botão :floppy_disk: `Save`
+
+Em seguida clicar com o botão direito em cima de `Databases` e selecionar a opção `Create` :arrow_right: `Database...`
+
+|  Campo | Valor  |
+| ------------ | ------------ |
+| Database | cash-machine  |
+
+Clicar no botão :floppy_disk: `save` e o banco de dados está configurado
+
+Rodar as migrations e seeds criadas:
+
+```
+php artisan migration --seed
+```
+
+Agora podemos acessar no browser:
+
+`http://cash-machine.local`
+
+E utilizar a aplicação sem moderação
+
+## Documentação dos endpoints
+
+Segue o [link](https://documenter.getpostman.com/view/6669330/TVYC8zEK) para documentação dos endpoints.
+
+## Como rodar os testes
+
+Coloque um passo a passo para executar os testes
+
+```
+$ phpunit
+```
+
+Caso queria executar os testes com coverage
+
+```
+$ phpunit --coverage-html coverage
+```
+
+Dentro da basta coverage terá um index.html para visualizar
+
+## Linguagens, dependencias e libs utilizadas :books:
+
+- [PHP](https://www.php.net/)
+- [Laravel](https://laravel.com/docs/8.x) 
+
+## Licença
+
+The [MIT License]() (MIT)
+
+Copyright :copyright: 2020 - Caixa Eletrônico
+
+
+

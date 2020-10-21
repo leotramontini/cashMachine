@@ -11,9 +11,9 @@
 
 :small_blue_diamond: [Pré-requisitos](#pré-requisitos)
 
-:small_blue_diamond: [Documentação dos endpoints ](#documentação-dos-endpoints)
-
 :small_blue_diamond: [Como rodar a aplicação ](#como-rodar-a-aplicação-arrow_forward)
+
+:small_blue_diamond: [Documentação dos endpoints ](#documentação-dos-endpoints)
 
 :small_blue_diamond: [Como rodar os testes ](#como-rodar-os-testes)
 

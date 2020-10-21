@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Account;
 use Exception;
 use App\Models\User;
 use App\Exceptions\UserServiceException;
@@ -51,6 +52,11 @@ class UserService
         if (empty($user)) {
             throw new UserServiceException('User not found');
         }
+
+        $account = new Account();
+        $account
+            ->where('user_id', $userId)
+            ->delete();
 
         return $user->delete();
     }

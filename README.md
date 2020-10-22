@@ -119,7 +119,7 @@ Para configurar o banco de dados em um browser acesse `localhost:5050`, usaremos
 
 | email  | senha  |
 | ------------ | ------------ |
-|  pgadmin4@pgadmin.org | postgres  |
+|  pgadmin4@pgadmin.org | admin  |
 
 Em `Serves` clique com o botão direito do mouse e clique na opção `Create` :arrow_right: `Servers`
 

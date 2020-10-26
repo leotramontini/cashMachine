@@ -140,6 +140,14 @@ Em seguida clicar com o botão direito em cima de `Databases` e selecionar a op�
 | ------------ | ------------ |
 | Database | cash-machine  |
 
+
+Em seguida precisamos criar o banco de dados para os testes, funciona da mesma forma porém com outro nome: 
+
+|  Campo | Valor  |
+| ------------ | ------------ |
+| Database | cashMachineTest  |
+
+
 Clicar no botão :floppy_disk: `save` e o banco de dados está configurado
 
 Rodar as migrations e seeds criadas:
